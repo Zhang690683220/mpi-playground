@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv) {
 
-    size_t elem_num = 4096;
+    size_t elem_num = 1 << 27;
     int tag1 = 10;
 	int tag2 = 20;
     
@@ -26,6 +26,13 @@ int main(int argc, char** argv) {
             partner_rank = i;
             break;
         }
+    }
+    if(rank == 0) {
+        std::cout<< "loc_ranks[] = ";
+        for(int i=0; i<nprocs; i++) {
+            std::cout<< loc_ranks[i] << " ";
+        }
+        std::cout<< std::endl;
     }
     free(loc_ranks);
 
