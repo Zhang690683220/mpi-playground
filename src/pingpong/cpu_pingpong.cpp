@@ -38,12 +38,16 @@ int main(int argc, char** argv) {
         host_buf[i] = 1.0;
     }
 
+    int min_rank, max_rank;
+    min_rank = rank < partner_rank ? rank : partner_rank;
+    max_rank = rank > partner_rank ? rank : partner_rank;
+
     while(1) {
-        if(rank == 0){
+        if(rank == min_rank){
             MPI_Send(host_buf, elem_num, MPI_DOUBLE, partner_rank, tag1, MPI_COMM_WORLD);
             MPI_Recv(host_buf, elem_num, MPI_DOUBLE, partner_rank, tag2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
-        else if(rank == 1){
+        else if(rank == max_rank){
             MPI_Recv(host_buf, elem_num, MPI_DOUBLE, partner_rank, tag1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Send(host_buf, elem_num, MPI_DOUBLE, partner_rank, tag2, MPI_COMM_WORLD);
         }
